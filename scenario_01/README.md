@@ -63,7 +63,7 @@ For this demo scenario only a single keyset is configured directly inline (`key_
 
 | Identifier | Algorithm      | Type                                          |
 | ---------- | -------------- | --------------------------------------------- |
-| `keyA`     | `TINK/AES_GCM` | Probabilistic AES-256-GCM (non-deterministic) |
+| `keyA`     | `TINK/AES_GCM` | Probabilistic AES-128-GCM (non-deterministic) |
 
 It's the default key used for any encryption operations. You can find more information about the different options regarding [keyset management](https://hpgrahsl.github.io/kryptonite-for-kafka/dev/key-management/) and the [keyset tool](https://hpgrahsl.github.io/kryptonite-for-kafka/dev/keyset-tool/) in the Kryptonite for Kafka documentation.
 
@@ -159,7 +159,7 @@ After passing through the encryption filter, `contact` is replaced by a single c
 
 ### 1. Start the stack
 
-From the `demo/scenario_01/` directory:
+From the `./scenario_01/` directory:
 
 ```bash
 docker compose up -d
