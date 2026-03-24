@@ -1,0 +1,75 @@
+---
+# sample kroxylicious proxy filter configuration for field-level encryption
+management:
+  endpoints:
+    prometheus: {}
+
+virtualClusters:
+  - name: demo-cluster
+    targetCluster:
+      bootstrapServers: kafka:9092
+    gateways:
+      - name: demo-gateway
+        portIdentifiesNode:
+          bootstrapAddress: kroxylicious:9192
+    logNetwork: false
+    logFrames: false
+
+filterDefinitions:
+  - name: k4k-encrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteEncryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM
+      cipher_data_key_identifier: keyA
+      cipher_data_keys:
+        - identifier: keyA
+          material:
+            primaryKeyId: 1000
+            key:
+              - keyData:
+                  typeUrl: type.googleapis.com/google.crypto.tink.AesGcmKey
+                  value: GhDRulECKAC8/19NMXDjeCjK
+                  keyMaterialType: SYMMETRIC
+                status: ENABLED
+                keyId: 1000
+                outputPrefixType: TINK
+      record_format: JSON
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k*
+          field_configs:
+            - name: contact           
+              fieldMode: OBJECT
+            - name: knownresidences
+              fieldMode: ELEMENT
+            
+  - name: k4k-decrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteDecryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM
+      cipher_data_key_identifier: keyA
+      cipher_data_keys:
+        - identifier: keyA
+          material:
+            primaryKeyId: 1000
+            key:
+              - keyData:
+                  typeUrl: type.googleapis.com/google.crypto.tink.AesGcmKey
+                  value: GhDRulECKAC8/19NMXDjeCjK
+                  keyMaterialType: SYMMETRIC
+                status: ENABLED
+                keyId: 1000
+                outputPrefixType: TINK
+      record_format: JSON
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k*
+          field_configs:
+            - name: contact           
+              fieldMode: OBJECT
+            - name: knownresidences
+              fieldMode: ELEMENT
+
+defaultFilters:
+  - k4k-encrypt
+  - k4k-decrypt
