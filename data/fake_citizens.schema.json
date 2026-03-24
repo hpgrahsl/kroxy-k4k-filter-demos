@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fake_citizens.schema.json",
+  "title": "FakeCitizen",
+  "description": "Schema for a single fake citizen record",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string"
+    },
+    "personal": {
+      "type": "object",
+      "properties": {
+        "firstname": { "type": "string" },
+        "lastname":  { "type": "string" },
+        "age":       { "type": "integer" },
+        "eyecolor":  { "type": "string" },
+        "gender":    { "type": "string" },
+        "height":    { "type": "integer" },
+        "weight":    { "type": "integer" }
+      }
+    },
+    "isactive": {
+      "type": "boolean"
+    },
+    "registered": {
+      "type": "string"
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "phone": { "type": "string" }
+      }
+    },
+    "knownresidences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
