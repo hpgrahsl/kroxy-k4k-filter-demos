@@ -14,5 +14,6 @@ This repository contains a growing list of  self-contained demo scenarios showca
 | # | Scenario | Description |
 |---|----------|-------------|
 | 1 | [Basic Field-Level Encryption & Decryption](scenario_01/README.md) | Transparent encryption and decryption of selected JSON payload fields at the proxy layer using a single AES-256-GCM keyset. Kafka console producers and consumers use the proxy endpoint unchanged; direct broker consumers see partially encrypted records only. |
+| 2 | [JSON Schema Registry + Multiple Keysets](scenario_02/README.md) | Adds a schema registry into the mix and uses the sample data with a corresponding JSON schema. Also, two keysets are configured to encrypt different payload fields with different keysets. |
 
 #### Stay tuned! Several additional examples to showcase more sophisticated capabilities are in the making...
