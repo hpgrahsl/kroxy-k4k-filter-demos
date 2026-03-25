@@ -1,0 +1,19 @@
+---
+# Unclassified configuration:
+# No decryption filter is in place which means any 
+# client apps routed/forced through this proxy instance
+# can only see the unclassified payload fields.
+management:
+  endpoints:
+    prometheus: {}
+
+virtualClusters:
+  - name: demo-cluster
+    targetCluster:
+      bootstrapServers: kafka:9092
+    gateways:
+      - name: demo-gateway
+        portIdentifiesNode:
+          bootstrapAddress: kroxylicious-unclassified:9192
+    logNetwork: false
+    logFrames: false
