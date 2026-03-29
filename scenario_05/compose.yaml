@@ -1,0 +1,50 @@
+name: kroxy-k4k-demo-05
+
+services:
+  kafka:
+    hostname: kafka
+    container_name: kafka
+    image: quay.io/strimzi/kafka:0.47.0-kafka-4.0.0
+    command: [
+      "sh", "-c",
+      "./bin/kafka-storage.sh format --standalone -t $${KAFKA_CLUSTER_ID} -c ./config/server.properties && ./bin/kafka-server-start.sh ./config/server.properties --override inter.broker.listener.name=$${KAFKA_INTER_BROKER_LISTENER_NAME} --override listener.security.protocol.map=$${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP} --override listeners=$${KAFKA_LISTENERS} --override controller.listener.names=$${KAFKA_CONTROLLER_LISTENER_NAMES} --override advertised.listeners=$${KAFKA_ADVERTISED_LISTENERS} --override num.partitions=$${KAFKA_NUM_PARTITIONS} --override group.min.session.timeout.ms=$${KAFKA_GROUP_MIN_SESSION_TIMEOUT_MS} --override message.max.bytes=16777216"
+    ]
+    ports:
+      - 9092:9092
+      - 29092:29092
+    volumes:
+      - ../data/:/home/kafka/data/
+      - ./scripts/:/home/kafka/scripts/
+    environment:
+      LOG_DIR: /tmp/logs
+      KAFKA_CLUSTER_ID: Sc05DemoKroxyliciousK4K1
+      KAFKA_ADVERTISED_LISTENERS: DOCKER_INSIDE://kafka:9092,DOCKER_OUTSIDE://localhost:29092
+      KAFKA_LISTENERS: DOCKER_INSIDE://kafka:9092,DOCKER_OUTSIDE://0.0.0.0:29092,CONTROLLER://:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER_INSIDE:PLAINTEXT,DOCKER_OUTSIDE:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER_INSIDE
+      KAFKA_GROUP_MIN_SESSION_TIMEOUT_MS: 250
+      KAFKA_NUM_PARTITIONS: 1
+    networks:
+      - demo-net
+
+  kroxylicious:
+    hostname: kroxylicious
+    container_name: kroxylicious
+    image: hpgrahsl/kroxy-k4k-filter:beta4
+    ports:
+      - "9192:9192"
+    volumes:
+      - ./proxy_config.yaml:/opt/kroxylicious/config/proxy.yaml:ro
+      - ../log4j2.yaml:/opt/kroxylicious/config/log4j2.yaml
+    command: ["-c", "/opt/kroxylicious/config/proxy.yaml"]
+    depends_on:
+      - kafka
+    environment:
+      - JAVA_OPTIONS=--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED
+    networks:
+      - demo-net
+
+networks:
+  demo-net:
+    name: kroxy-k4k-demo-05
