@@ -1,0 +1,21 @@
+{
+  "type": "record",
+  "name": "CheckoutEvent",
+  "namespace": "io.github.hpgrahsl.kroxy.demo",
+  "doc": "Payment checkout event for FSI/e-commerce scenario",
+  "fields": [
+    {"name": "transaction_id",    "type": "string"},
+    {"name": "timestamp_utc",     "type": "string"},
+    {"name": "merchant_id",       "type": "string"},
+    {"name": "merchant_name",     "type": "string"},
+    {"name": "merchant_category", "type": "string"},
+    {"name": "amount_usd",        "type": "double"},
+    {"name": "currency",          "type": "string"},
+    {"name": "card_number",       "type": "string"},
+    {"name": "cardholder_name",   "type": "string"},
+    {"name": "account_id",        "type": "string"},
+    {"name": "billing_zip",       "type": "string"},
+    {"name": "promo_code",        "type": ["null", "string"], "default": null},
+    {"name": "gift_card_id",      "type": ["null", "string"], "default": null}
+  ]
+}

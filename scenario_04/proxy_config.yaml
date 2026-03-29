@@ -1,0 +1,133 @@
+---
+# sample kroxylicious proxy filter configuration for field-level encryption
+management:
+  endpoints:
+    prometheus: {}
+
+virtualClusters:
+  - name: demo-cluster
+    targetCluster:
+      bootstrapServers: kafka:9092
+    gateways:
+      - name: demo-gateway
+        portIdentifiesNode:
+          bootstrapAddress: kroxylicious:9192
+    logNetwork: false
+    logFrames: false
+
+filterDefinitions:
+  - name: k4k-encrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteEncryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM
+      cipher_data_key_identifier: key1
+      cipher_data_keys:
+        - identifier: "key1"
+          material:
+            primaryKeyId: 10000
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCiy9bxul8VIZ5bb80bLyPAMSBFN4FBkkj3xxeo11ed+A=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "TINK"
+        - identifier: "key2"
+          material:
+            primaryKeyId: 10000
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesSivKey"
+                value: "EkALhSnJw8/Ku5FKIu1hNb+ZRe/RLeq9dmz6tX9cvQUDk11lJqhXK9OzAKlpvdKAgA6kebS/x1xJVoiLohPBWG0e"
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "TINK"
+        - identifier: "key3"
+          material:
+            primaryKeyId: 10000
+            key:
+            - keyData:
+                typeUrl: "io.github.hpgrahsl.kryptonite/crypto.custom.mysto.fpe.FpeKey"
+                value: "uqm9pMCwGgv1Bgsu5fm2hDyGH9nnRrRH"
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "RAW"
+      record_format: AVRO
+      schema_registry_url: http://schema-registry:8081
+      schema_mode: DYNAMIC
+      serde_type: AVRO
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k-*
+          field_configs:
+            - name: card_number
+              keyId: key3
+              algorithm: CUSTOM/MYSTO_FPE_FF3_1
+              fpeAlphabetType: DIGITS
+            - name: cardholder_name
+            - name: account_id
+              keyId: key2
+              algorithm: TINK/AES_GCM_SIV
+            - name: promo_code
+              keyId: key2
+              algorithm: TINK/AES_GCM_SIV
+            - name: gift_card_id
+
+  - name: k4k-decrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteDecryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM
+      cipher_data_key_identifier: key1
+      cipher_data_keys:
+        - identifier: "key1"
+          material:
+            primaryKeyId: 10000
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCiy9bxul8VIZ5bb80bLyPAMSBFN4FBkkj3xxeo11ed+A=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "TINK"
+        - identifier: "key2"
+          material:
+            primaryKeyId: 10000
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesSivKey"
+                value: "EkALhSnJw8/Ku5FKIu1hNb+ZRe/RLeq9dmz6tX9cvQUDk11lJqhXK9OzAKlpvdKAgA6kebS/x1xJVoiLohPBWG0e"
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "TINK"
+        - identifier: "key3"
+          material:
+            primaryKeyId: 10000
+            key:
+            - keyData:
+                typeUrl: "io.github.hpgrahsl.kryptonite/crypto.custom.mysto.fpe.FpeKey"
+                value: "uqm9pMCwGgv1Bgsu5fm2hDyGH9nnRrRH"
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "RAW"
+      record_format: AVRO
+      schema_registry_url: http://schema-registry:8081
+      schema_mode: DYNAMIC
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k-*
+          field_configs:
+            - name: card_number
+            - name: cardholder_name
+            - name: account_id
+            - name: promo_code
+            - name: gift_card_id
+
+defaultFilters:
+  - k4k-encrypt
+  - k4k-decrypt
