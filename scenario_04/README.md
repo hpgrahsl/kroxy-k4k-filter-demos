@@ -94,26 +94,24 @@ Three keysets are configured inline (`key_source: CONFIG`), each serving a diffe
 
 ### Topic Field Configuration
 
-The filter applies to all topic names matching the pattern `demo-kroxy-k4k-payments*`:
+The filter applies to all topic names matching the pattern `demo-kroxy-k4k-*`:
 
 ```yaml
-topic_field_configs:
-  - topic_pattern: demo-kroxy-k4k-payments*
-    field_configs:
-      - name: card_number
-        keyId: key3
-        algorithm: CUSTOM/MYSTO_FPE_FF3_1
-        fpeAlphabetType: DIGITS
-      - name: cardholder_name
-      - name: account_id
-        keyId: key2
-        algorithm: TINK/AES_GCM_SIV
-      - name: promo_code
-        keyId: key2
-        algorithm: TINK/AES_GCM_SIV
-        nullable: true
-      - name: gift_card_id
-        nullable: true
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k-*
+          field_configs:
+            - name: card_number
+              keyId: key3
+              algorithm: CUSTOM/MYSTO_FPE_FF3_1
+              fpeAlphabetType: DIGITS
+            - name: cardholder_name
+            - name: account_id
+              keyId: key2
+              algorithm: TINK/AES_GCM_SIV
+            - name: promo_code
+              keyId: key2
+              algorithm: TINK/AES_GCM_SIV
+            - name: gift_card_id
 ```
 
 | Field             | `keyId`          | Nullable | Notes                                                                                                               |
