@@ -1,0 +1,152 @@
+---
+# proxy filter configuration for phase 3 ingestion:
+#   - default key identifier -> keyset_2 (now changed)
+#   - keyset_2 PK in use -> 10003 (initial)
+management:
+  endpoints:
+    prometheus: {}
+
+virtualClusters:
+  - name: demo-cluster
+    targetCluster:
+      bootstrapServers: kafka:9092
+    gateways:
+      - name: demo-gateway
+        portIdentifiesNode:
+          bootstrapAddress: kroxylicious:9192
+    logNetwork: false
+    logFrames: false
+
+filterDefinitions:
+  - name: k4k-encrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteEncryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM
+      cipher_data_key_identifier: keyset_2
+      cipher_data_keys:
+        - identifier: "keyset_1"
+          material:
+            primaryKeyId: 10001
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiBdgAyKgdm8TASAWHEnF34NzaxHy8T8XY8iSuRJ2i6r5g=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiB2Wjy7HI8nlSbVv+fAZUQfEwQMgursWfVmuWFP4gdFpw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10001
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCHBh9lPt9P/idaatFPtJ4yeVDUQH3LzgS9/QAk++yNOw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10002
+              outputPrefixType: "TINK"
+        - identifier: "keyset_2"
+          material:
+            primaryKeyId: 10003
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiDojOj1wd7M0RvG6mjnVlQXb5HQwlWNUvrcLmGi1V1lYw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10003
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiBPDGCJFoi3SFO+I0xw3llXXvq94/N6fXvCz0bmPJWMcw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10004
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiAquC+DwZLERKurN0NunRlLVlj5sRUzkjB3iqNu5BHr3A=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10005
+              outputPrefixType: "TINK"
+
+      record_format: JSON
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k-rotation*
+          field_configs:
+            - name: ip_address
+            - name: query
+
+  - name: k4k-decrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteDecryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM
+      cipher_data_key_identifier: keyset_2
+      cipher_data_keys:
+        - identifier: "keyset_1"
+          material:
+            primaryKeyId: 10001
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiBdgAyKgdm8TASAWHEnF34NzaxHy8T8XY8iSuRJ2i6r5g=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10000
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiB2Wjy7HI8nlSbVv+fAZUQfEwQMgursWfVmuWFP4gdFpw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10001
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCHBh9lPt9P/idaatFPtJ4yeVDUQH3LzgS9/QAk++yNOw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10002
+              outputPrefixType: "TINK"
+        - identifier: "keyset_2"
+          material:
+            primaryKeyId: 10003
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiDojOj1wd7M0RvG6mjnVlQXb5HQwlWNUvrcLmGi1V1lYw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10003
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiBPDGCJFoi3SFO+I0xw3llXXvq94/N6fXvCz0bmPJWMcw=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10004
+              outputPrefixType: "TINK"
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiAquC+DwZLERKurN0NunRlLVlj5sRUzkjB3iqNu5BHr3A=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 10005
+              outputPrefixType: "TINK"
+      record_format: JSON
+      topic_field_configs:
+        - topic_pattern: demo-kroxy-k4k-rotation*
+          field_configs:
+            - name: ip_address
+            - name: query
+
+defaultFilters:
+  - k4k-encrypt
+  - k4k-decrypt
