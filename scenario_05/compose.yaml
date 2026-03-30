@@ -17,7 +17,7 @@ services:
       - ./scripts/:/home/kafka/scripts/
     environment:
       LOG_DIR: /tmp/logs
-      KAFKA_CLUSTER_ID: Sc05DemoKroxyliciousK4K1
+      KAFKA_CLUSTER_ID: DIAO2SH9SdGuqBkcKYXtiw
       KAFKA_ADVERTISED_LISTENERS: DOCKER_INSIDE://kafka:9092,DOCKER_OUTSIDE://localhost:29092
       KAFKA_LISTENERS: DOCKER_INSIDE://kafka:9092,DOCKER_OUTSIDE://0.0.0.0:29092,CONTROLLER://:9093
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
@@ -36,7 +36,6 @@ services:
       - "9192:9192"
     volumes:
       - ./proxy_config.yaml:/opt/kroxylicious/config/proxy.yaml:ro
-      - ../log4j2.yaml:/opt/kroxylicious/config/log4j2.yaml
     command: ["-c", "/opt/kroxylicious/config/proxy.yaml"]
     depends_on:
       - kafka
