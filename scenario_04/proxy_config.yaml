@@ -61,7 +61,7 @@ filterDefinitions:
       schema_mode: DYNAMIC
       serde_type: AVRO
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k-*
+        - topic_pattern: demo-kroxy-k4k-.*
           field_configs:
             - name: card_number
               keyId: key3
@@ -120,7 +120,7 @@ filterDefinitions:
       schema_registry_url: http://schema-registry:8081
       schema_mode: DYNAMIC
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k-*
+        - topic_pattern: demo-kroxy-k4k-.*
           field_configs:
             - name: card_number
             - name: cardholder_name

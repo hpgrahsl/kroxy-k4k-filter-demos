@@ -48,12 +48,11 @@ services:
   kroxylicious:
     hostname: kroxylicious
     container_name: kroxylicious
-    image: hpgrahsl/kroxy-k4k-filter:beta4
+    image: hpgrahsl/kroxy-k4k-filter:beta6
     ports:
       - "9192:9192"
     volumes:
       - ./proxy_config.yaml:/opt/kroxylicious/config/proxy.yaml:ro
-      - ../log4j2.yaml:/opt/kroxylicious/config/log4j2.yaml
     command: ["-c", "/opt/kroxylicious/config/proxy.yaml"]
     depends_on:
       - kafka
