@@ -36,7 +36,7 @@ filterDefinitions:
                 outputPrefixType: TINK
       record_format: JSON
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k*
+        - topic_pattern: demo-kroxy-k4k.*
           field_configs:
             - name: contact           
               fieldMode: OBJECT
@@ -63,7 +63,7 @@ filterDefinitions:
                 outputPrefixType: TINK
       record_format: JSON
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k*
+        - topic_pattern: demo-kroxy-k4k.*
           field_configs:
             - name: contact           
               fieldMode: OBJECT
