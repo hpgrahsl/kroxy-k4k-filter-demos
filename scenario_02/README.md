@@ -12,7 +12,7 @@ The stack consists of three containers:
 | ----------------- | -------------------------------------------------- | ------------------------------------------------------------ |
 | `kafka`           | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0`         | KRaft-mode single-node Kafka broker                          |
 | `schema-registry` | `confluentinc/cp-schema-registry:7.9.0`            | Confluent Schema Registry for JSON Schema                    |
-| `kroxylicious`    | `hpgrahsl/kroxy-k4k-filter:0.1.0-experimental`    | Kroxylicious proxy (0.19.0) with a snapshot build of the k4k filter |
+| `kroxylicious`    | `hpgrahsl/kroxy-k4k-filter:beta6`    | Kroxylicious proxy (0.19.0) with a snapshot build of the k4k filter |
 
 ### Data Flow
 
@@ -84,7 +84,7 @@ The filter applies to all topic names matching the pattern `demo-kroxy-k4k*`:
 
 ```yaml
 topic_field_configs:
-  - topic_pattern: demo-kroxy-k4k*
+  - topic_pattern: demo-kroxy-k4k.*
     field_configs:
       - name: personal
         fieldMode: OBJECT
@@ -191,7 +191,7 @@ The producer talks to Kroxylicious to ingest the sample data (100 JSON records) 
 ### 3. Consume directly from the broker (see ciphertext)
 
 ```bash
-docker exec schema-registry /home/appuser/scripts/direct_consumer.sh
+docker exec -it schema-registry /home/appuser/scripts/direct_consumer.sh
 ```
 
 This bypasses the proxy entirely. You will see the partially encrypted form of the records exactly as stored in Kafka — `personal` is an opaque ciphertext string and each value within `contact` is individually ciphered.
@@ -201,7 +201,7 @@ This bypasses the proxy entirely. You will see the partially encrypted form of t
 ### 4. Consume via the proxy (see plaintext)
 
 ```bash
-docker exec schema-registry /home/appuser/scripts/proxy_consumer.sh
+docker exec -it schema-registry /home/appuser/scripts/proxy_consumer.sh
 ```
 
 The consumer talks to Kroxylicious. The decryption filter transparently decrypts all encrypted fields before delivering the records. The output is identical to the original plaintext input — as if no encryption ever happened.
