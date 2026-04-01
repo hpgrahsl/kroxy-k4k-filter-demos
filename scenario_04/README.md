@@ -12,7 +12,7 @@ The stack consists of three containers:
 | ----------------- | ------------------------------------------ | ------------------------------------------- |
 | `kafka`           | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0` | KRaft-mode single-node Kafka broker         |
 | `schema-registry` | `confluentinc/cp-schema-registry:7.9.0`    | Confluent Schema Registry for Avro          |
-| `kroxylicious`    | `hpgrahsl/kroxy-k4k-filter:beta3`          | Kroxylicious proxy (0.19.0) with k4k filter |
+| `kroxylicious`    | `hpgrahsl/kroxy-k4k-filter:beta6`          | Kroxylicious proxy (0.19.0) with k4k filter |
 
 ### Data Flow
 
@@ -94,11 +94,11 @@ Three keysets are configured inline (`key_source: CONFIG`), each serving a diffe
 
 ### Topic Field Configuration
 
-The filter applies to all topic names matching the pattern `demo-kroxy-k4k-*`:
+The filter applies to all topic names matching the pattern `demo-kroxy-k4k-.*`:
 
 ```yaml
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k-*
+        - topic_pattern: demo-kroxy-k4k-.*
           field_configs:
             - name: card_number
               keyId: key3
@@ -241,7 +241,7 @@ The producer talks to Kroxylicious and ingests 1000 Avro records using `kafka-av
 ### 3. Consume directly from the broker (see ciphertext)
 
 ```bash
-docker exec schema-registry /home/appuser/scripts/direct_consumer.sh
+docker exec -it schema-registry /home/appuser/scripts/direct_consumer.sh
 ```
 
 This bypasses the proxy entirely. You will see the records exactly as stored in Kafka which means the values for all five sensitive fields are all ciphertext.
@@ -251,7 +251,7 @@ This bypasses the proxy entirely. You will see the records exactly as stored in 
 ### 4. Consume via the proxy (see plaintext)
 
 ```bash
-docker exec schema-registry /home/appuser/scripts/proxy_consumer.sh
+docker exec -it schema-registry /home/appuser/scripts/proxy_consumer.sh
 ```
 
 The consumer talks to Kroxylicious. The decryption filter transparently decrypts all encrypted fields before delivery. The output is identical to the original plaintext input.

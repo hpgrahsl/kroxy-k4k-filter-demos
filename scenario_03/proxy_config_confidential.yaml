@@ -49,7 +49,7 @@ filterDefinitions:
       schema_registry_url: http://schema-registry:8081
       schema_mode: DYNAMIC
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k*
+        - topic_pattern: demo-kroxy-k4k.*
           field_configs:
             # Can only ever decrypt fields
             # for which the security clearance

@@ -12,9 +12,9 @@ The stack consists of five containers:
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------- |
 | `kafka`                     | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0`     | KRaft-mode single-node Kafka broker                                             |
 | `schema-registry`           | `confluentinc/cp-schema-registry:7.9.0`        | Confluent Schema Registry for JSON Schema                                       |
-| `kroxylicious-unclassified` | `hpgrahsl/kroxy-k4k-filter:0.1.0-experimental` | Proxy with no decryption filter (no sensitive fields get decrypted)             |
-| `kroxylicious-confidential` | `hpgrahsl/kroxy-k4k-filter:0.1.0-experimental` | Proxy with decryption filter for fields up to confidential level (`keyB`)       |
-| `kroxylicious-topsecret`    | `hpgrahsl/kroxy-k4k-filter:0.1.0-experimental` | Proxy with decryption filter for fields up to topsecret level (`keyA` + `keyB`) |
+| `kroxylicious-unclassified` | `hpgrahsl/kroxy-k4k-filter:beta6` | Proxy with no decryption filter (no sensitive fields get decrypted)             |
+| `kroxylicious-confidential` | `hpgrahsl/kroxy-k4k-filter:beta6` | Proxy with decryption filter for fields up to confidential level (`keyB`)       |
+| `kroxylicious-topsecret`    | `hpgrahsl/kroxy-k4k-filter:beta6` | Proxy with decryption filter for fields up to topsecret level (`keyA` + `keyB`) |
 
 ### Network Isolation
 
@@ -130,7 +130,7 @@ The encrypt and decrypt filters on the topsecret proxy are configured for topics
 
 ```yaml
 topic_field_configs:
-  - topic_pattern: demo-kroxy-k4k*
+  - topic_pattern: demo-kroxy-k4k.*
     field_configs:
       - name: personal
         fieldMode: ELEMENT
@@ -266,7 +266,7 @@ The encryption filter intercepts each record, encrypts each field in `personal` 
 Placing the container on `kroxy-k4k-unclassified` routes it through `kroxylicious-unclassified`, which has no decryption filter. All encrypted fields are delivered as ciphertext:
 
 ```bash
-docker run --rm --name app-consumer-unclassified \
+docker run -it --rm --name app-consumer-unclassified \
   --network kroxy-k4k-unclassified \
   -v ./scripts/:/home/appuser/scripts/ \
   confluentinc/cp-schema-registry:7.9.0 \
