@@ -78,7 +78,7 @@ filterDefinitions:
 
       record_format: JSON
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k-rotation*
+        - topic_pattern: demo-kroxy-k4k-rotation.*
           field_configs:
             - name: ip_address
             - name: query
@@ -142,7 +142,7 @@ filterDefinitions:
               outputPrefixType: "TINK"
       record_format: JSON
       topic_field_configs:
-        - topic_pattern: demo-kroxy-k4k-rotation*
+        - topic_pattern: demo-kroxy-k4k-rotation.*
           field_configs:
             - name: ip_address
             - name: query
