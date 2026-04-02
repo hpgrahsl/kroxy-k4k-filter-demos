@@ -43,7 +43,7 @@ services:
   kroxylicious-unclassified:
     hostname: kroxylicious-unclassified
     container_name: kroxylicious-unclassified
-    image: hpgrahsl/kroxy-k4k-filter:beta6
+    image: hpgrahsl/kroxy-k4k-filter:beta7
     volumes:
       - ./proxy_config_unclassified.yaml:/opt/kroxylicious/config/proxy.yaml:ro
     command: ["-c", "/opt/kroxylicious/config/proxy.yaml"]
@@ -58,7 +58,7 @@ services:
   kroxylicious-confidential:
     hostname: kroxylicious-confidential
     container_name: kroxylicious-confidential
-    image: hpgrahsl/kroxy-k4k-filter:beta6
+    image: hpgrahsl/kroxy-k4k-filter:beta7
     volumes:
       - ./proxy_config_confidential.yaml:/opt/kroxylicious/config/proxy.yaml:ro
     command: ["-c", "/opt/kroxylicious/config/proxy.yaml"]
@@ -73,7 +73,7 @@ services:
   kroxylicious-topsecret:
     hostname: kroxylicious-topsecret
     container_name: kroxylicious-topsecret
-    image: hpgrahsl/kroxy-k4k-filter:beta6
+    image: hpgrahsl/kroxy-k4k-filter:beta7
     volumes:
       - ./proxy_config_topsecret.yaml:/opt/kroxylicious/config/proxy.yaml:ro
     command: ["-c", "/opt/kroxylicious/config/proxy.yaml"]

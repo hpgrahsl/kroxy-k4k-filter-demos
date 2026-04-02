@@ -31,7 +31,7 @@ services:
   kroxylicious:
     hostname: kroxylicious
     container_name: kroxylicious
-    image: hpgrahsl/kroxy-k4k-filter:beta6
+    image: hpgrahsl/kroxy-k4k-filter:beta7
     ports:
       - "9192:9192"
       - "9193:9193"

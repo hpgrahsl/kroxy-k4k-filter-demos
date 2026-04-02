@@ -12,9 +12,9 @@ The stack consists of five containers:
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------- |
 | `kafka`                     | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0`     | KRaft-mode single-node Kafka broker                                             |
 | `schema-registry`           | `confluentinc/cp-schema-registry:7.9.0`        | Confluent Schema Registry for JSON Schema                                       |
-| `kroxylicious-unclassified` | `hpgrahsl/kroxy-k4k-filter:beta6` | Proxy with no decryption filter (no sensitive fields get decrypted)             |
-| `kroxylicious-confidential` | `hpgrahsl/kroxy-k4k-filter:beta6` | Proxy with decryption filter for fields up to confidential level (`keyB`)       |
-| `kroxylicious-topsecret`    | `hpgrahsl/kroxy-k4k-filter:beta6` | Proxy with decryption filter for fields up to topsecret level (`keyA` + `keyB`) |
+| `kroxylicious-unclassified` | `hpgrahsl/kroxy-k4k-filter:beta7` | Proxy with no decryption filter (no sensitive fields get decrypted)             |
+| `kroxylicious-confidential` | `hpgrahsl/kroxy-k4k-filter:beta7` | Proxy with decryption filter for fields up to confidential level (`keyB`)       |
+| `kroxylicious-topsecret`    | `hpgrahsl/kroxy-k4k-filter:beta7` | Proxy with decryption filter for fields up to topsecret level (`keyA` + `keyB`) |
 
 ### Network Isolation
 
