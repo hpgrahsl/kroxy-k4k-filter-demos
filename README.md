@@ -7,6 +7,8 @@ This repository contains a growing list of  self-contained demo scenarios showca
 - **[Kroxylicious](https://kroxylicious.io):** is an Apache Kafka® protocol-aware proxy. It can be used to layer uniform behaviours onto a Kafka based system in areas such as data-governance, security, policy enforcement and audit without needing to change either the applications or the Kafka Cluster.
 - **[Kryptonite for Kafka](https://github.com/hpgrahsl/kryptonite-for-kafka):** is a client-side 🔒 field level 🔓 cryptography "suite" for Apache Kafka® offering an Apache Kafka Connect SMT, ksqlDB UDFs, Apache Flink® UDFs, a standalone HTTP API service, and will soon add a proxy filter plugin for Kroxylicious. It's an UNOFFICIAL community project.
 
+![Kroxylicious Kryptonite Filter Overview](./images/kroxy-k4k-module-docs.png)
+
 ---
 
 ## Scenarios
