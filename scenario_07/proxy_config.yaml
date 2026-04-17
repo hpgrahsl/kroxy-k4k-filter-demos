@@ -1,0 +1,164 @@
+---
+# sample kroxylicious proxy filter configuration for field-level encryption
+management:
+  endpoints:
+    prometheus: {}
+
+virtualClusters:
+  - name: demo-cluster
+    targetCluster:
+      bootstrapServers: kafka:9092
+    gateways:
+      - name: demo-gateway
+        portIdentifiesNode:
+          bootstrapAddress: kroxylicious:9192
+    logNetwork: false
+    logFrames: false
+
+filterDefinitions:
+  - name: k4k-encrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteEncryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_algorithm: TINK/AES_GCM_ENVELOPE_KEYSET
+      cipher_data_key_identifier: '$$:region'
+      dynamic_key_id_prefix: '$$:'
+      cipher_data_keys:
+        - identifier: "default-key"
+          material:
+            primaryKeyId: 100000
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCfZ8smBfUqqUpYueARaodBkhRtzYdARW9Hof/VKxlNhg=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100000
+              outputPrefixType: "TINK"
+        - identifier: "EMEA"
+          material:
+            primaryKeyId: 100001
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCpMiAYe41xtxUQttBncRmJ91rJ6PE3MdB4lEVcdhMwhg=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100001
+              outputPrefixType: "TINK"
+        - identifier: "NA"
+          material:
+            primaryKeyId: 100002
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiA1UHQDdWZjLWhqJlgF1gZIwVER7a+/iJPXEKe98cWpoQ=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100002
+              outputPrefixType: "TINK"
+        - identifier: "LATAM"
+          material:
+            primaryKeyId: 100003
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiC05TgHzsuvA8keis7Bp9c0sVZH0urj7mW7o5J4wCJUQA=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100003
+              outputPrefixType: "TINK"
+        - identifier: "APAC"
+          material:
+            primaryKeyId: 100004
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCMDvgEk3ROBqWooKNG/kwtCmhsXi2vBupKLW639isx/A=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100004
+              outputPrefixType: "TINK"
+      record_format: AVRO
+      schema_registry_url: http://schema-registry:8081
+      schema_mode: DYNAMIC
+      serde_type: AVRO
+      topic_field_configs:
+        - topic_pattern: insurance-claims
+          field_configs:
+            - name: policy_holder
+            - name: incident
+            - name: payout_account
+
+  - name: k4k-decrypt
+    type: com.github.hpgrahsl.kroxylicious.filters.kryptonite.filter.KryptoniteDecryptionFilterFactory
+    config:
+      key_source: CONFIG
+      cipher_data_keys:
+        - identifier: "default-key"
+          material:
+            primaryKeyId: 100000
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCfZ8smBfUqqUpYueARaodBkhRtzYdARW9Hof/VKxlNhg=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100000
+              outputPrefixType: "TINK"
+        - identifier: "EMEA"
+          material:
+            primaryKeyId: 100001
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCpMiAYe41xtxUQttBncRmJ91rJ6PE3MdB4lEVcdhMwhg=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100001
+              outputPrefixType: "TINK"
+        - identifier: "NA"
+          material:
+            primaryKeyId: 100002
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiA1UHQDdWZjLWhqJlgF1gZIwVER7a+/iJPXEKe98cWpoQ=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100002
+              outputPrefixType: "TINK"
+        - identifier: "LATAM"
+          material:
+            primaryKeyId: 100003
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiC05TgHzsuvA8keis7Bp9c0sVZH0urj7mW7o5J4wCJUQA=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100003
+              outputPrefixType: "TINK"
+        - identifier: "APAC"
+          material:
+            primaryKeyId: 100004
+            key:
+            - keyData:
+                typeUrl: "type.googleapis.com/google.crypto.tink.AesGcmKey"
+                value: "GiCMDvgEk3ROBqWooKNG/kwtCmhsXi2vBupKLW639isx/A=="
+                keyMaterialType: "SYMMETRIC"
+              status: "ENABLED"
+              keyId: 100004
+              outputPrefixType: "TINK"
+      record_format: AVRO
+      schema_registry_url: http://schema-registry:8081
+      topic_field_configs:
+        - topic_pattern: insurance-claims
+          field_configs:
+            - name: policy_holder
+            - name: incident
+            - name: payout_account
+
+defaultFilters:
+  - k4k-encrypt
+  - k4k-decrypt

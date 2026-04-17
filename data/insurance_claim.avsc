@@ -1,0 +1,68 @@
+{
+  "type": "record",
+  "name": "InsuranceClaim",
+  "namespace": "io.github.hpgrahsl.kroxy.demo",
+  "doc": "Insurance claim event with per-region data encryption",
+  "fields": [
+    { "name": "claim_id",         "type": "string" },
+    { "name": "submitted_at_utc", "type": "string" },
+    { "name": "region",           "type": "string" },
+    { "name": "policy_id",        "type": "string" },
+    { "name": "policy_type",      "type": {
+        "type": "enum", "name": "PolicyType",
+        "symbols": ["AUTO", "HOME", "HEALTH", "TRAVEL"]
+    }},
+    { "name": "policy_holder",    "type": {
+        "type": "record", "name": "PolicyHolder",
+        "fields": [
+          { "name": "customer_id",   "type": "string" },
+          { "name": "full_name",     "type": "string" },
+          { "name": "date_of_birth", "type": "string" },
+          { "name": "email",         "type": "string" },
+          { "name": "phone",         "type": "string" },
+          { "name": "national_id",   "type": "string" }
+        ]
+    }},
+    { "name": "incident", "type": {
+        "type": "record", "name": "Incident",
+        "fields": [
+          { "name": "incident_date", "type": "string" },
+          { "name": "incident_type", "type": {
+              "type": "enum", "name": "IncidentType",
+              "symbols": [
+                "COLLISION", "THEFT", "VANDALISM", "WEATHER_DAMAGE",
+                "FIRE", "FLOOD", "BURGLARY", "STRUCTURAL_DAMAGE",
+                "HOSPITALIZATION", "EMERGENCY_SURGERY", "SPECIALIST_REFERRAL",
+                "TRIP_CANCELLATION", "LOST_LUGGAGE", "MEDICAL_EVACUATION"
+              ]
+          }},
+          { "name": "description", "type": "string" },
+          { "name": "location",    "type": {
+              "type": "record", "name": "Location",
+              "fields": [
+                { "name": "address", "type": "string" },
+                { "name": "city",    "type": "string" },
+                { "name": "country", "type": "string" }
+              ]
+          }}
+        ]
+    }},
+    { "name": "claimed_amount",  "type": "double" },
+    { "name": "currency",        "type": "string" },
+    { "name": "payout_account",  "type": {
+        "type": "record", "name": "PayoutAccount",
+        "fields": [
+          { "name": "bank_name",              "type": "string" },
+          { "name": "account_holder",         "type": "string" },
+          { "name": "iban_or_account_number", "type": "string" },
+          { "name": "routing_code",           "type": "string" }
+        ]
+    }},
+    { "name": "status",               "type": {
+        "type": "enum", "name": "ClaimStatus",
+        "symbols": ["SUBMITTED", "UNDER_REVIEW", "APPROVED", "REJECTED", "PAID"]
+    }},
+    { "name": "adjuster_id",          "type": ["null", "string"], "default": null },
+    { "name": "supporting_documents", "type": { "type": "array", "items": "string" } }
+  ]
+}
