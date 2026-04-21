@@ -4,7 +4,7 @@ services:
   kafka:
     hostname: kafka
     container_name: kafka
-    image: quay.io/strimzi/kafka:0.47.0-kafka-4.0.0
+    image: quay.io/strimzi/kafka:0.51.0-kafka-4.2.0
     command: [
       "sh", "-c",
       "./bin/kafka-storage.sh format --standalone -t $${KAFKA_CLUSTER_ID} -c ./config/server.properties && ./bin/kafka-server-start.sh ./config/server.properties --override inter.broker.listener.name=$${KAFKA_INTER_BROKER_LISTENER_NAME} --override listener.security.protocol.map=$${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP} --override listeners=$${KAFKA_LISTENERS} --override controller.listener.names=$${KAFKA_CONTROLLER_LISTENER_NAMES} --override advertised.listeners=$${KAFKA_ADVERTISED_LISTENERS} --override num.partitions=$${KAFKA_NUM_PARTITIONS} --override group.min.session.timeout.ms=$${KAFKA_GROUP_MIN_SESSION_TIMEOUT_MS} --override message.max.bytes=16777216"
@@ -31,7 +31,7 @@ services:
   kroxylicious:
     hostname: kroxylicious
     container_name: kroxylicious
-    image: hpgrahsl/kroxy-k4k-filter:beta7
+    image: hpgrahsl/kroxylicious-kryptonite:0.20.0-0.1.0
     ports:
       - "9192:9192"
     volumes:

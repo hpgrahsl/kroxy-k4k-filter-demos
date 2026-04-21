@@ -1,6 +1,6 @@
 ## Kryptonite for Kafka 🫶 Kroxylicious
 
-This repository contains a growing list of  self-contained demo scenarios showcasing a development snapshot of the upcoming **[Kryptonite for Kafka](https://hpgrahsl.github.io/kryptonite-for-kafka/dev/)** proxy filter for  **[Kroxylicious](https://kroxylicious.io)**. Each scenario uses Docker Compose to spin up the minimum viable local stack needed to demonstrate various field-level encryption capabilities applied at the Kafka proxy layer.
+This repository contains a growing list of self-contained demo scenarios showcasing the recently released **[Kryptonite for Kafka](https://hpgrahsl.github.io/kryptonite-for-kafka/dev/)** proxy filter for 🐊 **[Kroxylicious](https://kroxylicious.io)**. Each scenario uses Docker Compose to spin up the minimum viable local stack needed to demonstrate various **field-level encryption capabilities** applied at the Kafka proxy layer.
 
 ### About the Stack
 
