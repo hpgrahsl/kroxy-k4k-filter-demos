@@ -10,11 +10,11 @@ The stack consists of five containers:
 
 | Container                   | Image                                          | Role                                                                            |
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------- |
-| `kafka`                     | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0`     | KRaft-mode single-node Kafka broker                                             |
-| `schema-registry`           | `confluentinc/cp-schema-registry:7.9.0`        | Confluent Schema Registry for JSON Schema                                       |
-| `kroxylicious-unclassified` | `hpgrahsl/kroxy-k4k-filter:beta7` | Proxy with no decryption filter (no sensitive fields get decrypted)             |
-| `kroxylicious-confidential` | `hpgrahsl/kroxy-k4k-filter:beta7` | Proxy with decryption filter for fields up to confidential level (`keyB`)       |
-| `kroxylicious-topsecret`    | `hpgrahsl/kroxy-k4k-filter:beta7` | Proxy with decryption filter for fields up to topsecret level (`keyA` + `keyB`) |
+| `kafka`                     | `quay.io/strimzi/kafka:0.51.0-kafka-4.2.0`     | KRaft-mode single-node Kafka broker                                             |
+| `schema-registry`           | `confluentinc/cp-schema-registry:8.2.0`        | Confluent Schema Registry                                                        |
+| `kroxylicious-unclassified` | `hpgrahsl/kroxylicious-kryptonite:0.20.0-0.1.0` | Kroxylicious proxy (0.20.0) with Kryptonite for Kafka filter (0.1.0)            |
+| `kroxylicious-confidential` | `hpgrahsl/kroxylicious-kryptonite:0.20.0-0.1.0` | Kroxylicious proxy (0.20.0) with Kryptonite for Kafka filter (0.1.0)            |
+| `kroxylicious-topsecret`    | `hpgrahsl/kroxylicious-kryptonite:0.20.0-0.1.0` | Kroxylicious proxy (0.20.0) with Kryptonite for Kafka filter (0.1.0)            |
 
 ### Network Isolation
 
@@ -253,7 +253,7 @@ docker run --rm --name app-producer \
   --network kroxy-k4k-topsecret \
   -v ../data/:/home/appuser/data/ \
   -v ./scripts/:/home/appuser/scripts/ \
-  confluentinc/cp-schema-registry:7.9.0 \
+  confluentinc/cp-schema-registry:8.2.0 \
   /home/appuser/scripts/proxy_producer.sh
 ```
 
@@ -269,7 +269,7 @@ Placing the container on `kroxy-k4k-unclassified` routes it through `kroxyliciou
 docker run -it --rm --name app-consumer-unclassified \
   --network kroxy-k4k-unclassified \
   -v ./scripts/:/home/appuser/scripts/ \
-  confluentinc/cp-schema-registry:7.9.0 \
+  confluentinc/cp-schema-registry:8.2.0 \
   /home/appuser/scripts/proxy_consumer.sh unclassified
 ```
 
@@ -283,7 +283,7 @@ Placing the container on `kroxy-k4k-confidential` routes it through `kroxyliciou
 docker run --rm --name app-consumer-confidential \
   --network kroxy-k4k-confidential \
   -v ./scripts/:/home/appuser/scripts/ \
-  confluentinc/cp-schema-registry:7.9.0 \
+  confluentinc/cp-schema-registry:8.2.0 \
   /home/appuser/scripts/proxy_consumer.sh confidential
 ```
 
@@ -297,7 +297,7 @@ Placing the container on `kroxy-k4k-topsecret` routes it through `kroxylicious-t
 docker run --rm --name app-consumer-topsecret \
   --network kroxy-k4k-topsecret \
   -v ./scripts/:/home/appuser/scripts/ \
-  confluentinc/cp-schema-registry:7.9.0 \
+  confluentinc/cp-schema-registry:8.2.0 \
   /home/appuser/scripts/proxy_consumer.sh topsecret
 ```
 

@@ -10,9 +10,9 @@ The stack consists of three containers:
 
 | Container         | Image                                              | Role                                                         |
 | ----------------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| `kafka`           | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0`         | KRaft-mode single-node Kafka broker                          |
-| `schema-registry` | `confluentinc/cp-schema-registry:7.9.0`            | Confluent Schema Registry for JSON Schema                    |
-| `kroxylicious`    | `hpgrahsl/kroxy-k4k-filter:beta7`    | Kroxylicious proxy (0.20.0) with a snapshot build of the k4k filter |
+| `kafka`           | `quay.io/strimzi/kafka:0.51.0-kafka-4.2.0`         | KRaft-mode single-node Kafka broker                          |
+| `schema-registry` | `confluentinc/cp-schema-registry:8.2.0`            | Confluent Schema Registry                                    |
+| `kroxylicious`    | `hpgrahsl/kroxylicious-kryptonite:0.20.0-0.1.0`    | Kroxylicious proxy (0.20.0) with Kryptonite for Kafka filter (0.1.0) |
 
 ### Data Flow
 

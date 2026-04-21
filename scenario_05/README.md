@@ -10,8 +10,8 @@ The stack is intentionally minimal to focuse on the key rotation aspect. There i
 
 | Container      | Image                                      | Role                                        |
 | -------------- | ------------------------------------------ | ------------------------------------------- |
-| `kafka`        | `quay.io/strimzi/kafka:0.47.0-kafka-4.0.0` | KRaft-mode single-node Kafka broker         |
-| `kroxylicious` | `hpgrahsl/kroxy-k4k-filter:beta7`          | Kroxylicious proxy (0.20.0) with k4k filter |
+| `kafka`        | `quay.io/strimzi/kafka:0.51.0-kafka-4.2.0` | KRaft-mode single-node Kafka broker         |
+| `kroxylicious` | `hpgrahsl/kroxylicious-kryptonite:0.20.0-0.1.0`          | Kroxylicious proxy (0.20.0) with Kryptonite for Kafka filter (0.1.0) |
 
 ### Data Flow
 
