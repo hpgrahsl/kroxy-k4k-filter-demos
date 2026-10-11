@@ -10,10 +10,14 @@ management:
   endpoints:
     prometheus: {}
 
+clusterDefinitions:
+  - name: kafka
+    bootstrapServers: kafka:9092
+
 virtualClusters:
   - name: demo-cluster
-    targetCluster:
-      bootstrapServers: kafka:9092
+    target:
+      cluster: kafka
     gateways:
       - name: demo-gateway
         portIdentifiesNode:
