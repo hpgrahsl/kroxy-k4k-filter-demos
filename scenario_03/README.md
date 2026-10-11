@@ -12,9 +12,9 @@ The stack consists of five containers:
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------- |
 | `kafka`                     | `quay.io/strimzi/kafka:0.51.0-kafka-4.2.0`     | KRaft-mode single-node Kafka broker                                             |
 | `schema-registry`           | `confluentinc/cp-schema-registry:8.2.0`        | Confluent Schema Registry                                                        |
-| `kroxylicious-unclassified` | `hpgrahsl/kroxylicious-kryptonite:0.23.0-0.1.0` | Kroxylicious proxy (0.23.0) with Kryptonite for Kafka filter (0.1.0)            |
-| `kroxylicious-confidential` | `hpgrahsl/kroxylicious-kryptonite:0.23.0-0.1.0` | Kroxylicious proxy (0.23.0) with Kryptonite for Kafka filter (0.1.0)            |
-| `kroxylicious-topsecret`    | `hpgrahsl/kroxylicious-kryptonite:0.23.0-0.1.0` | Kroxylicious proxy (0.23.0) with Kryptonite for Kafka filter (0.1.0)            |
+| `kroxylicious-unclassified` | `hpgrahsl/kroxylicious-kryptonite:0.25.0-0.2.0-SNAPSHOT` | Kroxylicious proxy (0.25.0) with Kryptonite for Kafka filter (0.2.0-SNAPSHOT)            |
+| `kroxylicious-confidential` | `hpgrahsl/kroxylicious-kryptonite:0.25.0-0.2.0-SNAPSHOT` | Kroxylicious proxy (0.25.0) with Kryptonite for Kafka filter (0.2.0-SNAPSHOT)            |
+| `kroxylicious-topsecret`    | `hpgrahsl/kroxylicious-kryptonite:0.25.0-0.2.0-SNAPSHOT` | Kroxylicious proxy (0.25.0) with Kryptonite for Kafka filter (0.2.0-SNAPSHOT)            |
 
 ### Network Isolation
 
@@ -126,7 +126,7 @@ In a production setup, keyset access would be governed by a KMS with per-instanc
 
 ### Topic Field Configuration
 
-The encrypt and decrypt filters on the topsecret proxy are configured for topics matching `demo-kroxy-k4k*`:
+The encrypt and decrypt filters on the topsecret proxy are configured for topics matching `demo-kroxy-k4k.*`:
 
 ```yaml
 topic_field_configs:

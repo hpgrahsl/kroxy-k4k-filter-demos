@@ -11,7 +11,7 @@ The stack is intentionally minimal to focuse on the key rotation aspect. There i
 | Container      | Image                                      | Role                                        |
 | -------------- | ------------------------------------------ | ------------------------------------------- |
 | `kafka`        | `quay.io/strimzi/kafka:0.51.0-kafka-4.2.0` | KRaft-mode single-node Kafka broker         |
-| `kroxylicious` | `hpgrahsl/kroxylicious-kryptonite:0.23.0-0.1.0`          | Kroxylicious proxy (0.23.0) with Kryptonite for Kafka filter (0.1.0) |
+| `kroxylicious` | `hpgrahsl/kroxylicious-kryptonite:0.25.0-0.2.0-SNAPSHOT`          | Kroxylicious proxy (0.25.0) with Kryptonite for Kafka filter (0.2.0-SNAPSHOT) |
 
 ### Data Flow
 
@@ -58,7 +58,7 @@ The proxy configuration for each phase is in the corresponding file:
 
 ### Virtual Cluster
 
-Kroxylicious exposes a virtual cluster (`demo-cluster`) that forwards all traffic to the real broker at `kafka:9092`. Clients connect to `kroxylicious:9192`.
+The real broker at `kafka:9092` is declared as cluster definition (`kafka`) and Kroxylicious exposes a virtual cluster (`demo-cluster`) that targets it, i.e. forwards all traffic to it. Clients connect to `kroxylicious:9192`.
 
 ### Filter Chain
 
@@ -86,11 +86,11 @@ Both keysets, `keyset_1` (key IDs 10000, 10001, 10002) and `keyset_2` (key IDs 1
 
 ### Topic Field Configuration
 
-The filter applies to all topic names matching `demo-kroxy-k4k-rotation*`:
+The filter applies to all topic names matching `demo-kroxy-k4k-rotation.*`:
 
 ```yaml
 topic_field_configs:
-  - topic_pattern: demo-kroxy-k4k-rotation*
+  - topic_pattern: demo-kroxy-k4k-rotation.*
     field_configs:
       - name: ip_address
       - name: query
